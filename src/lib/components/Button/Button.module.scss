@@ -1,0 +1,85 @@
+.component {
+  appearance: none;
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  min-width: 100px;
+  margin: 0 1px;
+  padding: 0.7em 1em;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+
+  background: var(--button-background-color);
+  border: 1px solid var(--button-border-color);
+  border-radius: 0.3em;
+  box-shadow: 0 1px 3px rgba(#000, 0.4);
+
+  > svg {
+    position: relative;
+    margin: 0;
+    width: 1.2em;
+    height: auto;
+    vertical-align: top;
+  }
+
+  &:active {
+    top: 1px;
+  }
+
+  &[data-noframe] {
+    color: var(--button-noframe-color);
+    background: var(--button-noframe-background-color);
+    border: 1px solid rgba(#000, 0);
+    box-shadow: none;
+  }
+  &[data-primary] {
+    background: rgb(13, 141, 245);
+    border: 1px solid rgba(rgb(201, 229, 255), 0.1);
+    box-shadow: none;
+  }
+  &[data-secondary] {
+    color: var(--button-secondary-color);
+    background: var(--button-secondary-background-color);
+    border: 1px solid var(--button-secondary-border-color);
+    box-shadow: none;
+  }
+  &[data-warn] {
+    background: rgb(245, 79, 13);
+    border: 1px solid rgba(rgb(255, 205, 201), 0.1);
+    box-shadow: 0 1px 7px rgba(rgb(255, 81, 0), 0.3),
+      0 -1px 0 rgba(#fff, 0.1) inset;
+  }
+
+  &[data-block] {
+    display: block;
+  }
+
+  &[data-large] {
+    font-size: 1.15rem;
+  }
+
+  &[aria-selected='true'] {
+    color: #fff;
+    background: #555;
+    box-shadow: 0 1px 3px rgba(#000, 0.4) inset;
+    border: 1px solid rgba(#000, 0.1);
+
+    &::before {
+      background: linear-gradient(rgb(94, 223, 122), rgb(104, 240, 111));
+    }
+  }
+
+  &[aria-disabled='true'],
+  &[disabled] {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}

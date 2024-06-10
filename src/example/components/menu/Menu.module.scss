@@ -1,0 +1,119 @@
+.component {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  user-select: none;
+  padding: 0 0 1rem;
+
+  font-size: 1.2rem;
+}
+
+.section {
+  border-bottom: 1px solid var(--line-color);
+  position: relative;
+  margin: 0 0 3rem;
+
+  &:first-child {
+    border-top: 0;
+  }
+}
+
+.sectionTitle {
+  margin: 2rem 0 0;
+  padding: 0.5rem 0.7rem 0.5rem 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--menu-title-color);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 1rem 0.7rem 1rem 1rem;
+  line-height: 1;
+  background-color: #fff;
+  border-top: 1px solid var(--line-color);
+  user-select: none;
+  text-decoration: none;
+  color: inherit;
+
+  &.link {
+    cursor: pointer;
+    &:active {
+      background-color: rgb(230, 236, 240);
+    }
+  }
+
+  .menuItemTitle {
+    margin-right: 1rem;
+    font-size: 1.1rem;
+    text-align: right;
+  }
+  .menuItemInfo,
+  .menuItemIcon {
+    color: var(--text-color-blue);
+    font-size: 1rem;
+  }
+  .menuItemInfo {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .menuItemIcon {
+    margin-left: 0.5rem;
+  }
+
+  svg {
+    vertical-align: middle;
+    line-height: 1;
+    width: 1.5rem;
+  }
+
+  &.centered {
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+.menuBtn {
+  position: relative;
+  margin: 0.3rem;
+  width: var(--header-height);
+  height: var(--header-height);
+  cursor: pointer;
+
+  .icon,
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    vertical-align: middle;
+    line-height: 1;
+    color: #555;
+  }
+  .icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: #eee none no-repeat center center;
+    background-size: cover;
+    border-radius: 100%;
+    border: 1px solid rgba(#000, 0.3);
+    box-shadow: 0 1px 5px rgba(#000, 0.2);
+    overflow: hidden;
+  }
+  svg {
+    width: 2rem;
+  }
+}
+
+.versionInfo {
+  margin: 1rem 0 4rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--menu-color-title);
+}

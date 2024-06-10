@@ -1,0 +1,50 @@
+.component {
+  position: relative;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+
+  // border-bottom: 1px solid rgba(rgb(84, 158, 207), 0.3);
+
+  .label {
+    padding: 0 0.5rem 0 0;
+    min-width: 8rem;
+    white-space: nowrap;
+  }
+
+  .input {
+    flex: 1;
+    appearance: none;
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0.2em 0.5em;
+    // background-color: rgba(rgb(84, 158, 207), 0.1);
+    background-color: var(--menuitem-background-color);
+    border: 0;
+    // border-radius: 0.3em 0.3em 0 0;
+    border-radius: 0;
+    font-size: 17px;
+    color: var(--primary-color);
+    user-select: auto;
+
+    &::placeholder {
+      color: rgba(#000, 0.2);
+    }
+    // &:-webkit-autofill,
+    // &:-internal-autofill-selected {
+    //   color: var(--primary-color) !important;
+    //   background-color: #fff;
+    //   transition: background-color 5000s ease-in-out 0s;
+    // }
+
+    &:focus {
+      outline: none;
+    }
+
+    &[disabled] {
+      color: #bbb;
+    }
+  }
+}

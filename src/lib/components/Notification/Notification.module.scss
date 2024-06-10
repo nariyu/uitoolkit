@@ -1,0 +1,43 @@
+.component {
+  position: relative;
+  margin: 0 auto;
+  padding: 2rem;
+  line-height: 1.2;
+  max-width: var(--max-width);
+
+  display: flex;
+  align-items: center;
+
+  backdrop-filter: blur(2px);
+
+  color: var(--notification-text-color);
+  background-color: var(--notification-background-color);
+  // border: 1px solid var(--notification-border-color);
+  box-shadow: 0 0 4px var(--notification-shadow-color);
+  border-radius: 0.7rem;
+
+  animation: appear 0.2s ease-out 0s;
+  will-change: opacity, transform;
+  pointer-events: all;
+
+  &[data-type='info'] {
+    color: #fff;
+    background-color: rgba(rgb(72, 182, 255), 0.9);
+  }
+
+  .content {
+    flex: 1;
+    position: relative;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translate(0, -1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}

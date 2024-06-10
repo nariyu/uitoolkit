@@ -1,0 +1,16 @@
+.section {
+  position: relative;
+  margin: 0;
+
+  + .section {
+    margin-top: 3rem;
+  }
+}
+
+.sectionTitle {
+  margin: 2rem 0 0;
+  padding: 0.5rem 0.7rem 0.5rem 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--menu-title-color);
+}

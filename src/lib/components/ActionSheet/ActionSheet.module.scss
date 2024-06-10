@@ -1,0 +1,99 @@
+.container {
+  position: absolute;
+  z-index: 1000;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  &.hidden {
+    pointer-events: none;
+  }
+}
+
+.background {
+  position: fixed;
+  z-index: 4000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--modal-background-color);
+  transition: opacity 0.2s linear 0s;
+  animation: appear-in-background 0.2s linear 0s;
+  &[aria-hidden='true'] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.component {
+  position: fixed;
+  z-index: 4001;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  max-width: var(--max-width);
+  color: var(--actionsheet-text-color);
+  background-color: var(--actionsheet-background-color);
+  border-top-left-radius: 0.6rem;
+  border-top-right-radius: 0.6rem;
+  box-shadow: 0 2px 2rem rgba(#000, 0.7);
+  transform: translate(-50%, 0);
+  transition: transform 0.2s ease-out 0s;
+  will-change: transform;
+
+  animation: appear-in 0.2s ease-out 0s;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    transform: translate(0, 100%);
+    background: var(--actionsheet-background-color);
+  }
+
+  .content {
+    position: relative;
+    max-height: 50rem;
+    min-height: 10rem;
+    overflow: hidden;
+
+    .title {
+      padding: 1rem;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  }
+
+  &[aria-hidden='true'] {
+    transform: translate(-50%, calc(100% + 40px));
+    box-shadow: 0 0 0 rgba(#000, 0.7);
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 0.25s ease-in 0s, opacity 0s linear 0.3s,
+      box-shadow 0.2s linear 0.3s;
+  }
+}
+
+@keyframes appear-in-background {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes appear-in {
+  from {
+    transform: translate(-50%, calc(100% + 40px));
+  }
+  to {
+    transform: translate(-50%, 0);
+  }
+}

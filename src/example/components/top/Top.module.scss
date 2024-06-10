@@ -1,0 +1,46 @@
+.component {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: var(--header-height);
+
+    .titleLeft,
+    .titleRight {
+      display: flex;
+      align-items: center;
+      width: 4rem;
+    }
+    .titleRight {
+      justify-content: flex-end;
+    }
+    .titleContent {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .appName {
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+  }
+
+  .content {
+    position: relative;
+    flex: 1;
+    padding: 2rem;
+    text-align: center;
+  }
+}

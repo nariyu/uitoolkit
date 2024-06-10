@@ -1,0 +1,22 @@
+.component {
+  position: relative;
+  padding: 2rem 1rem;
+
+  text-align: center;
+}
+
+.icon {
+  margin: 0 auto;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 100%;
+  background: #fff none no-repeat center center;
+  background-size: cover;
+  border: 1px solid rgba(#000, 0.3);
+  box-shadow: 0 3px 7px rgba(#000, 0.2);
+  overflow: hidden;
+}
+
+.name {
+  margin: 1rem 0 0;
+}

@@ -1,0 +1,23 @@
+$breakpoints: (
+  mobile: '(max-width: 700px)',
+  desktop: '(min-width: 701px)',
+) !default;
+
+@function breakpoint($value) {
+  @return map-get($breakpoints, $value);
+}
+
+@mixin breakpoint($value) {
+  $str: breakpoint($value);
+
+  // If $str is still an empty string, no media query is needed
+  @if $str== '' {
+    @content;
+
+    // Otherwise, wrap the content in a media query
+  } @else {
+    @media screen and #{$str} {
+      @content;
+    }
+  }
+}

@@ -1,0 +1,220 @@
+.component {
+  flex: 1;
+  position: relative;
+  margin: 0;
+  padding: 1.5rem;
+
+  font-size: 1.15rem;
+}
+
+.field {
+  position: relative;
+  margin: 1rem -1.5rem 2rem;
+  padding: 0.5rem 1.5rem;
+  background-color: var(--menuitem-background-color);
+
+  &.hbox {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    .label {
+      padding: 0 1rem 0 0;
+      min-width: 8rem;
+    }
+    .content {
+      flex: 1;
+    }
+  }
+
+  + .field {
+    margin-top: 2rem;
+  }
+}
+
+.field,
+.fieldMemo,
+.fieldError {
+  + .field {
+    margin-top: 2rem;
+  }
+}
+
+.fieldMemo {
+  margin: -1rem 0 1rem;
+  font-size: 0.85em;
+  color: rgb(72, 177, 40);
+}
+.fieldError {
+  margin: -1rem 0 1rem;
+  font-size: 0.85em;
+  color: #f00;
+}
+
+.error {
+  margin: 1rem 0;
+  color: #f00;
+}
+.errorLabel {
+  color: #f00 !important;
+}
+// .error-input {
+//   background-color: rgba(#f00, 0.05) !important;
+//   border: 1px solid #f00 !important;
+// }
+
+.strong {
+  color: #f00;
+  font-weight: normal;
+}
+
+.message {
+  margin: 3rem 0;
+  font-size: 1rem;
+}
+.messageDel {
+  padding: 1rem;
+
+  .hint {
+    margin: 3rem 0;
+    border-radius: 0.5rem;
+    .hintTitle {
+      margin: 0 0 0.5rem;
+      font-weight: bold;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      li {
+        position: relative;
+        padding: 0 0 0 1.2rem;
+        line-height: 1.5;
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0.6rem;
+          left: 0.3rem;
+          width: 0.35rem;
+          height: 0.35rem;
+          border-radius: 100%;
+          background-color: #000;
+        }
+      }
+    }
+  }
+}
+
+.messageSection {
+  padding: 1rem;
+  > *:first-child {
+    margin-top: 0;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.menuSection {
+  margin: 2rem -1.5rem;
+  border-top: 1px solid var(--line-color);
+
+  &.del {
+    margin-top: 4rem;
+  }
+}
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 1rem 0.7rem 1rem 1rem;
+  line-height: 1;
+  background-color: #fff;
+  border-bottom: 1px solid var(--line-color);
+  user-select: none;
+  text-decoration: none;
+  color: inherit;
+
+  &.link {
+    cursor: pointer;
+    &:active {
+      background-color: rgb(230, 236, 240);
+    }
+  }
+
+  .menuItemTitle {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    text-align: right;
+  }
+  .menuItemInfo,
+  .menuItemMark {
+    color: var(--text-color-blue);
+    font-size: 1rem;
+  }
+  .menuItemInfo {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .menuItemMark {
+    margin-left: 0.5rem;
+  }
+
+  svg {
+    vertical-align: middle;
+    line-height: 1;
+    width: 1.5rem;
+  }
+
+  &.signout,
+  &.deleteUser {
+    text-align: center;
+    color: #f00;
+    justify-content: center;
+  }
+}
+
+.imageBox {
+  position: relative;
+  margin: 0 auto;
+  width: 9rem;
+  height: 9rem;
+  .addPhotoIcon {
+    position: absolute;
+    z-index: 10;
+    bottom: 0.1rem;
+    right: 0.1rem;
+    width: 3rem;
+    height: 3rem;
+    background: rgba(#000, 0.8);
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    svg {
+      vertical-align: middle;
+      line-height: 1;
+      width: 1.5rem;
+      height: 1.5rem;
+      color: #fff;
+      transform: translate(-0.1rem, 0);
+    }
+  }
+}
+.image {
+  position: relative;
+  margin: 0 auto;
+  width: 9rem;
+  height: 9rem;
+  background: #fff none no-repeat center center;
+  background-size: cover;
+  border: 1px solid rgba(#000, 0.2);
+  border-radius: 100%;
+  box-shadow: 0 1px 6px rgba(#000, 0.3);
+  overflow: hidden;
+}
