@@ -13,6 +13,15 @@
   padding: 0.5rem 1.5rem;
   background-color: var(--menuitem-background-color);
 
+  [data-ui="TextInput"] {
+    width: 100%;
+    max-width: 100%;
+    input {
+      border: 0;
+      color: var(--primary-color);
+    }
+  }
+
   &.hbox {
     display: flex;
     align-items: center;
@@ -90,7 +99,7 @@
         padding: 0 0 0 1.2rem;
         line-height: 1.5;
         &::before {
-          content: '';
+          content: "";
           display: block;
           position: absolute;
           top: 0.6rem;

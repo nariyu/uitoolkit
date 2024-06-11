@@ -1,4 +1,4 @@
-import { useMainContext } from "@/example/hooks/useContext";
+import { useMainContext } from "@/example/hooks/useMainContext";
 import { Button } from "@/lib/components/Button";
 import { useCallback } from "react";
 import styles from "./Content2b.module.scss";
@@ -6,14 +6,14 @@ import { Content2CContent, Content2CTitle } from "./Content2c";
 
 export const Content2BTitle = () => <>I am...</>;
 export const Content2BContent = () => {
-  const { modalNavigationController } = useMainContext();
+  const { modalNavigationControllerRef } = useMainContext();
 
   const nextView = useCallback(() => {
-    modalNavigationController?.pushView(
+    modalNavigationControllerRef?.current?.pushView(
       <Content2CTitle />,
       <Content2CContent />
     );
-  }, [modalNavigationController]);
+  }, [modalNavigationControllerRef]);
 
   return (
     <div className={styles.component}>

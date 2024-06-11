@@ -1,11 +1,11 @@
 .component {
   position: relative;
-  margin: 0;
+  display: inline-block;
 
-  display: flex;
-  align-items: center;
-
-  // border-bottom: 1px solid rgba(rgb(84, 158, 207), 0.3);
+  .content {
+    display: flex;
+    align-items: center;
+  }
 
   .label {
     padding: 0 0.5rem 0 0;
@@ -14,23 +14,24 @@
   }
 
   .input {
+    position: relative;
     flex: 1;
     appearance: none;
     display: block;
     width: 100%;
     margin: 0;
-    padding: 0.2em 0.5em;
+    padding: 0.4em 0.5em;
     // background-color: rgba(rgb(84, 158, 207), 0.1);
-    background-color: var(--menuitem-background-color);
-    border: 0;
+    background-color: var(--textinput-background-color);
+    border: 1px solid var(--textinput-border-color);
     // border-radius: 0.3em 0.3em 0 0;
-    border-radius: 0;
-    font-size: 17px;
-    color: var(--primary-color);
+    border-radius: 0.2em;
+    font-size: 16px;
+    color: var(--textinput-text-color);
     user-select: auto;
 
     &::placeholder {
-      color: rgba(#000, 0.2);
+      color: var(--textinput-placeholder-color);
     }
     // &:-webkit-autofill,
     // &:-internal-autofill-selected {
@@ -45,6 +46,46 @@
 
     &[disabled] {
       color: #bbb;
+    }
+  }
+
+  &[data-shape="rounded"] {
+    .input {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      border-radius: 100em;
+      height: 46px;
+    }
+    &[data-has-error="true"] {
+      &:before {
+        border-radius: 100rem;
+      }
+    }
+  }
+
+  &[data-style="transparent"] {
+    .input {
+      border: 1px solid var(--textinput-rounded-border-color);
+      background: var(--textinput-rounded-background-color);
+      color: var(--textinput-rounded-text-color);
+    }
+  }
+
+  &[data-has-error="true"] {
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      z-index: 100;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border: 1px solid #f00;
+      pointer-events: none;
+    }
+    .input {
+      color: rgba(#f55, 1);
     }
   }
 }

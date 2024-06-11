@@ -1,0 +1,132 @@
+.component {
+  display: inline-block;
+  position: relative;
+}
+
+.container {
+  min-height: 10em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 600;
+  &[data-hours-type="12"] {
+    .amPmSelector {
+      display: flex;
+      width: 80px;
+      font-size: 12px;
+      button {
+        width: 38px;
+        border: none;
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0);
+        &:hover {
+          background: rgba(0, 0, 0, 0.2);
+        }
+      }
+      .am {
+        &[data-selected="true"] {
+          background-color: var(--primary-color);
+          color: #fff;
+        }
+      }
+      .pm {
+        &[data-selected="true"] {
+          background-color: var(--primary-color);
+          color: #fff;
+        }
+      }
+    }
+    .time {
+      width: 5em;
+    }
+  }
+}
+
+.content {
+  flex: 1;
+  position: relative;
+  display: flex;
+  user-select: none;
+}
+
+.hours,
+.minutes {
+  flex: 1;
+  position: relative;
+  width: 5em;
+  font-weight: 600;
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    width: 100%;
+    height: calc(50% - 1em);
+    pointer-events: none;
+  }
+  &::before {
+    top: 0;
+    // background-image: linear-gradient(
+    //   to bottom,
+    //   rgba(#000, 0.1),
+    //   rgba(#000, 0)
+    // );
+  }
+  &::after {
+    bottom: 0;
+    // background-image: linear-gradient(
+    //   to bottom,
+    //   rgba(#000, 0),
+    //   rgba(#000, 0.1)
+    // );
+  }
+}
+
+.hours .hour,
+.minutes .min {
+  padding: 0.7em 1em;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1;
+
+  border-radius: 0.3em;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(#9bf, 0.1);
+  }
+
+  &[data-selected="true"] {
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--primary-color);
+  }
+}
+
+.divider {
+  margin: 0 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroller {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  padding: 0 0.5em;
+}

@@ -20,7 +20,7 @@ import {
   Content3IconSelected,
 } from "../components/contents/Content3";
 import { Top } from "../components/top/Top";
-import { useMainContext } from "../hooks/useContext";
+import { useMainContext } from "../hooks/useMainContext";
 import styles from "./MainScreen.module.scss";
 
 /**
@@ -31,12 +31,12 @@ export const MainScreen = () => {
 
   // Context
   const {
-    setMenuState,
-    setModalContainer,
+    modalContainerRef,
     menuNavigationControllerRef,
-    modalNavigationControllerState,
-    setModalNavigationController,
-    hideModalNavigationControllerModal,
+    modalNavigationControllerRef,
+    closeMenu,
+    modalNavigationControllerOpened,
+    closeModalNavigationControllerModal,
   } = useMainContext();
 
   const [
@@ -48,9 +48,7 @@ export const MainScreen = () => {
   const hasUserInfo = !!userInfo;
   useEffect(() => {
     if (hasUserInfo) {
-      if (menuNavigationControllerRef?.current) {
-        menuNavigationControllerRef.current.removeAllViews();
-      }
+      menuNavigationControllerRef?.current?.removeAllViews();
     }
   }, [hasUserInfo, menuNavigationControllerRef]);
 
@@ -59,12 +57,10 @@ export const MainScreen = () => {
     (event: SyntheticEvent) => {
       preventDefault(event);
 
-      if (menuNavigationControllerRef?.current) {
-        menuNavigationControllerRef.current.removeAllViews();
-      }
-      hideModalNavigationControllerModal();
+      menuNavigationControllerRef?.current?.removeAllViews();
+      closeModalNavigationControllerModal();
     },
-    [hideModalNavigationControllerModal, menuNavigationControllerRef]
+    [closeModalNavigationControllerModal, menuNavigationControllerRef]
   );
 
   return (
@@ -76,7 +72,7 @@ export const MainScreen = () => {
         className={styles.navigationControllerModal}
         aria-hidden={
           menuNavigationControllerViewIndex === -1 &&
-          !modalNavigationControllerState.shown
+          !modalNavigationControllerOpened
         }
         onClick={onClickModalBackground}
       />
@@ -88,16 +84,11 @@ export const MainScreen = () => {
       >
         <NavigationController
           ref={(ref) => {
-            if (menuNavigationControllerRef) {
+            if (menuNavigationControllerRef)
               menuNavigationControllerRef.current = ref;
-            }
           }}
           defaultNoBorder={true}
-          onClose={() =>
-            setMenuState((curr) => {
-              return { ...curr, opened: false };
-            })
-          }
+          onClose={closeMenu}
           onChangeIndex={(index) => {
             setMenuNavigationControllerViewIndex(index);
           }}
@@ -107,14 +98,24 @@ export const MainScreen = () => {
       {/* MODAL NAVIGATION CONTROLLER */}
       <div
         className={styles.navigationModal}
-        aria-hidden={!modalNavigationControllerState.shown}
+        aria-hidden={!modalNavigationControllerOpened}
       >
-        <div ref={setModalContainer} className={styles.modalContainer} />
+        <div
+          ref={(ref) => {
+            if (modalContainerRef) {
+              modalContainerRef.current = ref;
+            }
+          }}
+          className={styles.modalContainer}
+        />
         <NavigationController
-          ref={setModalNavigationController}
+          ref={(ref) => {
+            if (modalNavigationControllerRef)
+              modalNavigationControllerRef.current = ref;
+          }}
           defaultTitle="NavigationController + Modal"
           defaultLeftButton="Close"
-          onClickDefaultLeftButton={hideModalNavigationControllerModal}
+          onClickDefaultLeftButton={closeModalNavigationControllerModal}
         >
           <TabNavigator
             items={[

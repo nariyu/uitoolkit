@@ -1,0 +1,22 @@
+.component {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  user-select: none;
+
+  &[aria-disabled='true'] {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}
+
+.floatingContent {
+  position: fixed;
+  z-index: 100000;
+
+  &[aria-hidden='true'] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

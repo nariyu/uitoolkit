@@ -2,66 +2,70 @@ import { Root, createRoot } from "react-dom/client";
 import { preventDefault } from "../../utils/ElementUtil";
 import styles from "./PopUpManager.module.scss";
 
+type PopUpOptions = {
+  enabledCloseByBackground?: boolean;
+};
+
 export class PopupManager {
-  private static modals: {
-    modal: JSX.Element;
-    enabledCloseByBackground: boolean;
+  private static data: {
+    popUp: JSX.Element;
+    options: PopUpOptions;
   }[] = [];
   private static root: Root;
-  private static modalContainer: HTMLElement;
-  private static modalExists = false;
+  private static popUpContainer: HTMLElement;
+  private static popUpExists = false;
 
-  public static open(modal: JSX.Element, enabledCloseByBackground = false) {
-    this.modals.push({ modal, enabledCloseByBackground });
+  public static open(popUp: JSX.Element, options: PopUpOptions = {}) {
+    this.data.push({ popUp, options });
 
-    if (this.modals.length === 1) {
-      this.renderModal();
+    if (this.data.length === 1) {
+      this.renderPopUp();
     }
   }
 
   public static close() {
     const root = this.root;
-    const modalContainer = this.modalContainer;
-    if (modalContainer) {
-      this.modals.shift();
-      modalContainer.classList.add(styles.closed);
+    const popUpContainer = this.popUpContainer;
+    if (popUpContainer) {
+      this.data.shift();
+      popUpContainer.classList.add(styles.closed);
       window.setTimeout(() => {
         root.unmount();
-        if (modalContainer.parentNode) {
-          modalContainer.parentNode.removeChild(modalContainer);
+        if (popUpContainer.parentNode) {
+          popUpContainer.parentNode.removeChild(popUpContainer);
         }
-        this.modalExists = false;
-        this.renderModal();
+        this.popUpExists = false;
+        this.renderPopUp();
       }, 300);
     }
   }
 
-  private static renderModal() {
-    if (this.modalExists) return;
-    const modal = this.modals[0];
-    if (modal) {
-      this.modalExists = true;
-      const modalContainer = document.createElement("div");
-      modalContainer.className = styles.modalContainer;
-      this.modalContainer = modalContainer;
+  private static renderPopUp() {
+    if (this.popUpExists) return;
+    const item = this.data[0];
+    if (item) {
+      this.popUpExists = true;
+      const popUpContainer = document.createElement("div");
+      popUpContainer.className = styles.popUpContainer;
+      this.popUpContainer = popUpContainer;
 
-      document.body.appendChild(modalContainer);
+      document.body.appendChild(popUpContainer);
 
-      const root = createRoot(modalContainer);
+      const root = createRoot(popUpContainer);
       this.root = root;
 
       root.render(
         <>
           <div
-            className={styles.modalContainerBackground}
+            className={styles.popUpContainerBackground}
             onClick={(event) => {
               preventDefault(event);
-              if (modal.enabledCloseByBackground) {
+              if (item.options.enabledCloseByBackground) {
                 this.close();
               }
             }}
           />
-          {modal.modal}
+          {item.popUp}
         </>
       );
     }

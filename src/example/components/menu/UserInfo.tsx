@@ -1,4 +1,4 @@
-import { useMainContext } from "@/example/hooks/useContext";
+import { useMainContext } from "@/example/hooks/useMainContext";
 import styles from "./UserInfo.module.scss";
 
 export const UserInfo = () => {

@@ -1,0 +1,74 @@
+.component {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  z-index: 1;
+  padding: 0.5em 1em;
+  min-width: 13em;
+  height: 2.5em;
+  &[data-size="small"] {
+    font-size: 0.9em;
+    min-width: 5em;
+  }
+
+  color: var(--textinput-text-color);
+  background: var(--textinput-background-color);
+  border: 1px solid var(--textinput-border-color);
+
+  border-radius: 0.3em;
+
+  cursor: pointer;
+  user-select: none;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &[aria-disabled="true"] {
+    pointer-events: none;
+  }
+
+  &.error {
+    background-color: #fee;
+    border: 1px solid #f00;
+  }
+}
+
+.value {
+  position: relative;
+  pointer-events: none;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.inputText {
+  display: none;
+  pointer-events: none;
+}
+
+.calendarContainer {
+  position: relative;
+  z-index: 100000;
+  padding: 1em 0.7em 0.7em;
+
+  display: flex;
+
+  color: #000;
+
+  background-color: rgba(#fff, 0.9);
+  border-radius: 0.3rem;
+  box-shadow: 0 1px 10px rgba(#000, 0.3);
+  overflow: hidden;
+  backdrop-filter: blur(16px) saturate(180%);
+
+  > * {
+    margin-left: 1em;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &[aria-hidden="true"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

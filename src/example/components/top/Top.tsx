@@ -1,26 +1,28 @@
-import { useMainContext } from "@/example/hooks/useContext";
-import { showActionSheet } from "@/lib/components/ActionSheet";
+import { useMainContext } from "@/example/hooks/useMainContext";
+import { showBottomSheet } from "@/lib/components/BottomSheet";
 import { Button } from "@/lib/components/Button";
-import { CheckBox } from "@/lib/components/CheckBox";
+import { DateInput } from "@/lib/components/DateInput";
 import {
   NotificationManager,
   NotificationType,
 } from "@/lib/components/Notification";
 import { Popup } from "@/lib/components/PopUp";
 import { PopupManager } from "@/lib/components/PopUp/PopUpManager";
+import { SwitchInput } from "@/lib/components/SwitchInput";
+import { TextInput } from "@/lib/components/TextInput";
 import { ReactNode, useCallback } from "react";
 import { MenuButton } from "../menu/Menu";
 import styles from "./Top.module.scss";
 
 export const Top = () => {
-  const { showModalNavigationControllerModal } = useMainContext();
+  const { openModalNavigationControllerModal } = useMainContext();
 
   const { theme, setTheme } = useMainContext();
 
   // ナビゲーションモーダルを開く
-  const setNavigationModalType = useCallback(() => {
-    showModalNavigationControllerModal();
-  }, [showModalNavigationControllerModal]);
+  const openNavigationModal = useCallback(() => {
+    openModalNavigationControllerModal();
+  }, [openModalNavigationControllerModal]);
 
   // モーダルを表示する
   const openModal = useCallback(() => {
@@ -40,7 +42,7 @@ export const Top = () => {
           Hello!
         </div>
       </Popup>,
-      true
+      { enabledCloseByBackground: true }
     );
   }, []);
 
@@ -97,14 +99,14 @@ export const Top = () => {
       {/* CONTENT */}
       <div className={styles.content}>
         <Row>
-          <Button onClick={setNavigationModalType}>
+          <Button onClick={openNavigationModal}>
             NavigationController + Modal
           </Button>
         </Row>
         <Row>
           <Button
             onClick={() => {
-              showActionSheet(
+              showBottomSheet(
                 "Wow!",
                 <div
                   style={{
@@ -121,7 +123,7 @@ export const Top = () => {
               );
             }}
           >
-            ActionSheet
+            BottomSheet
           </Button>
         </Row>
         <Row>
@@ -149,7 +151,13 @@ export const Top = () => {
           </Button>
         </Row>
         <Row>
-          <CheckBox
+          <DateInput enabledTimePicker defaultValue={Date.now()} />
+        </Row>
+        <Row>
+          <TextInput containerStyle={{ maxWidth: "15em" }} />
+        </Row>
+        <Row>
+          <SwitchInput
             label="Dark Mode"
             checked={theme === "dark"}
             onChange={(checked) => setTheme(checked ? "dark" : "light")}

@@ -11,12 +11,13 @@ export class EventEmitter<T = unknown> {
    * @param type event type
    * @param listener event listener
    */
-  public on<K extends keyof T>(type: K, listener: Listener<T, keyof T>) {
+  public on<K extends keyof T>(type: K, listener: Listener<T, K>) {
     const listeners = this.listeners;
 
     const t = type as string;
     if (!listeners[t]) listeners[t] = [];
-    listeners[t].push(listener);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listeners[t].push(listener as any);
     return this;
   }
 
@@ -72,8 +73,7 @@ export class EventEmitter<T = unknown> {
       callbacks = callbacks.concat(listeners[eventType]);
     }
     for (const callback of callbacks) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback.call(this, event as any);
+      callback.call(this, event as T[K]);
     }
     return this;
   }

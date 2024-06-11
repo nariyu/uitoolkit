@@ -31,22 +31,34 @@
   --menuitem-background-color: var(--background-color);
   --menuitem-background-active-color: rgb(230, 236, 240);
 
-  --actionsheet-text-color: var(--text-color);
-  --actionsheet-background-color: var(--background-color);
+  // BottomSheet
+  --bottomsheet-text-color: var(--text-color);
+  --bottomsheet-background-color: var(--background-color);
 
-  --popup-text-color: var(--text-color);
-  --popup-background-color: var(--background-color);
-
+  // Checkbox
   --checkbox-background-color: #ddd;
 
+  // TabNavigator
   --tabnavigator-background-color: var(--view-background-color);
   --tabnavigator-tabgroup-background-color: var(--background-color);
   --tabnavigator-tabgroup-border-color: #ddd;
 
+  // Text Inputs
+  --textinput-max-width: 400px;
+  --textinput-text-color: #000;
+  --textinput-background-color: #fff;
+  --textinput-border-color: rgba(0, 0, 0, 0.2);
+  --textinput-placeholder-color: rgba(0, 0, 0, 0.3);
+
+  // Close Button
   --closebutton-background-color: rgba(0, 0, 0, 0.4);
 
+  // PopUp
+  --popup-text-color: var(--text-color);
+  --popup-background-color: var(--background-color);
   --popup-button-border-color: rgba(0, 0, 0, 0.2);
 
+  // Notification
   --notification-text-color: #000;
   --notification-background-color: rgba(255, 255, 255, 0.9);
   --notification-border-color: rgba(0, 0, 0, 0.2);
@@ -57,7 +69,7 @@
   --ease-back-out: cubic-bezier(0.17, 0.67, 0.49, 1.18);
 
   // DARK THEME
-  &[data-theme='dark'] {
+  &[data-theme="dark"] {
     --text-color: #fff;
     --background-color: #000;
 
@@ -100,11 +112,23 @@ html {
   font-size: 14px;
   color: var(--text-color);
   background-color: var(--background-color);
-  transition: color 0.2s linear 0s, background-color 0.2s linear 0s;
+  transition:
+    color 0.2s linear 0s,
+    background-color 0.2s linear 0s;
 }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
   font-display: fallback;
 
   -webkit-tap-highlight-color: transparent;

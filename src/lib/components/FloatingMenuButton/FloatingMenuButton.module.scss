@@ -1,0 +1,98 @@
+.menu {
+  min-width: 10px;
+  min-height: 10px;
+  max-height: 400px;
+
+  color: var(--floating-menu-text-color);
+  background-color: var(--floating-menu-background-color);
+  border-radius: 0.3rem;
+  box-shadow: 0 2px 5px var(--floating-menu-shadow-color);
+
+  overflow: auto;
+
+  &[data-variant="dark"] {
+    border: 1px solid var(--floating-menu-border-color-dark);
+  }
+
+  .menuItem {
+    padding: 0.7rem 1rem;
+    min-width: 8em;
+    border-bottom: 1px solid var(--floating-menuitem-border-color);
+
+    font-weight: 500;
+    white-space: nowrap;
+
+    user-select: none;
+    cursor: pointer;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &[data-variant="alert"] {
+      color: var(--floating-menuitem-text-color-alert);
+    }
+    &[data-variant="primary"] {
+      color: var(--floating-menuitem-text-color-primary);
+    }
+
+    &[data-variant="dark"] {
+      color: var(--floating-menuitem-text-color-dark);
+      background-color: var(--floating-menuitem-background-color-dark);
+      border-bottom: 1px solid var(--floating-menuitem-border-color-dark);
+      // 罫線の重なり
+      &:last-child {
+        margin-bottom: -1px;
+      }
+    }
+
+    &:hover {
+      color: var(--floating-menuitem-text-color-hovered);
+      background-color: var(--floating-menuitem-background-color-hovered);
+      border-bottom-color: transparent;
+
+      &[data-variant="alert"] {
+        color: var(--floating-menuitem-text-color-alert-hovered);
+        background-color: var(
+          --floating-menuitem-background-color-alert-hovered
+        );
+      }
+      &[data-variant="primary"] {
+        color: var(--floating-menuitem-text-color-primary-hovered);
+        background-color: var(
+          --floating-menuitem-background-color-primary-hovered
+        );
+      }
+      &[data-variant="text"] {
+        background-color: var(
+          --floating-menuitem-background-color-text-hovered
+        );
+      }
+      &[data-variant="dark"] {
+        background-color: var(
+          --floating-menuitem-background-color-dark-hovered
+        );
+        // hover時に罫線が消えるのを防ぐ
+        &:not(:last-child) {
+          border-bottom: 1px solid var(--floating-menuitem-border-color-dark);
+        }
+      }
+    }
+
+    &[aria-disabled="true"] {
+      color: var(--floating-menuitem-text-color-disabled);
+      font-weight: normal;
+      pointer-events: none;
+      &[data-variant="dark"] {
+        background-color: var(
+          --floating-menuitem-background-color-dark-disabled
+        );
+      }
+    }
+  }
+
+  &[aria-hidden="true"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 /**
  * 日時を成形した文字列で取得する
  * @param {String} formatStr フォーマット
@@ -6,56 +8,56 @@
  */
 export const formatDate = (
   dateTime?: Date | number,
-  formatStr?: string | null,
+  formatStr?: string | null
 ): string => {
   let d: Date;
 
   if (dateTime === undefined) {
     d = new Date();
-  } else if (typeof dateTime === 'number') {
+  } else if (typeof dateTime === "number") {
     d = new Date(dateTime);
   } else {
     d = dateTime as Date;
   }
 
   if (!formatStr) {
-    return formatDate(d, 'YYYY-MM-DD HH:mm:ss Z');
+    return formatDate(d, "YYYY-MM-DD HH:mm:ss Z");
   }
 
   const fullYear = d.getFullYear();
   const month = d.getMonth();
   const monthString = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ][month];
   const date = d.getDate();
   const day = d.getDay();
   const dayStr = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ][day];
-  const dayJPStr = ['日', '月', '火', '水', '木', '金', '土'][day];
+  const dayJPStr = ["日", "月", "火", "水", "木", "金", "土"][day];
   const hours = d.getHours();
   const minutes = d.getMinutes();
   const seconds = d.getSeconds();
   const milliSeconds = d.getMilliseconds();
   const offsetTime = d.getTimezoneOffset() * -1;
-  const offsetSymbol = offsetTime < 0 ? '-' : '+';
+  const offsetSymbol = offsetTime < 0 ? "-" : "+";
   const offsetHours = padZero(Math.floor(offsetTime / 60));
   const offsetMinutes = padZero(offsetTime % 60);
 
@@ -64,88 +66,88 @@ export const formatDate = (
     (str: string): string => {
       switch (str) {
         // years
-        case 'YY':
-          return (fullYear + '').substr(2);
-        case 'YYYY':
+        case "YY":
+          return (fullYear + "").substr(2);
+        case "YYYY":
           return `${fullYear}`;
 
         // months
-        case 'M':
+        case "M":
           return `${month + 1}`;
-        case 'MM':
+        case "MM":
           return padZero(month + 1);
-        case 'MMM':
+        case "MMM":
           return monthString.substr(0, 3);
-        case 'MMMM':
+        case "MMMM":
           return monthString;
 
         // date
-        case 'D':
+        case "D":
           return `${date}`;
-        case 'DD':
+        case "DD":
           return padZero(date);
 
         // weeks
-        case 'd':
+        case "d":
           return `${day}`;
-        case 'dd':
+        case "dd":
           return dayStr.substr(0, 2);
-        case 'ddd':
+        case "ddd":
           return dayStr.substr(0, 3);
-        case 'dddd':
+        case "dddd":
           return dayStr;
-        case 'ddj':
-          return dayJPStr + '曜日';
-        case 'dj':
+        case "ddj":
+          return dayJPStr + "曜日";
+        case "dj":
           return dayJPStr;
 
         // hours
-        case 'H':
+        case "H":
           return `${hours}`;
-        case 'HH':
+        case "HH":
           return padZero(hours);
-        case 'h':
+        case "h":
           return `${hours % 12}`;
-        case 'hh':
+        case "hh":
           return padZero(hours % 12);
 
         // minutes
-        case 'm':
+        case "m":
           return `${minutes}`;
-        case 'mm':
+        case "mm":
           return padZero(minutes);
 
         // seconds
-        case 's':
+        case "s":
           return `${seconds}`;
-        case 'ss':
+        case "ss":
           return padZero(seconds);
 
         // milli seconds
-        case 'S':
+        case "S":
           return `${milliSeconds}`;
-        case 'SS':
+        case "SS":
           return padZero(milliSeconds);
-        case 'SSS':
+        case "SSS":
           return padZero(milliSeconds);
 
         // others
-        case 'X':
+        case "X":
           return `${Math.floor(d.getTime() / 1000)}`;
 
         // format
-        case 'Z':
-          return offsetSymbol + [offsetHours, offsetMinutes].join(':');
-        case 'ZZ':
-          return offsetSymbol + [offsetHours, offsetMinutes].join('');
+        case "Z":
+          return offsetSymbol + [offsetHours, offsetMinutes].join(":");
+        case "ZZ":
+          return offsetSymbol + [offsetHours, offsetMinutes].join("");
 
-        case 'c':
-          return formatDate(d, 'YYYY-MM-DDTHH:mm:ssZ'); // ISO 8601
+        case "c":
+          return formatDate(d, "YYYY-MM-DDTHH:mm:ssZ"); // ISO 8601
 
         default:
           return str;
       }
-    },
+    }
   );
 
   return formatStr;
@@ -169,4 +171,37 @@ export const getRemainTime = (target: Date, now?: Date) => {
 
 //
 const padZero = (num: number, maxLength = 2) =>
-  `${num}`.padStart(maxLength, '0');
+  `${num}`.padStart(maxLength, "0");
+
+/**
+ * 相対時間のみ（昨日,今日,明日）
+ * @param date
+ * @param dateFormat
+ * @param lang
+ * @returns
+ */
+export const getRelativeFormat = (
+  date: Date | number,
+  dateFormat = "YYYY年M月D日（ddd）",
+  lang?: "ja" | "en"
+) => {
+  const yesterday = dayjs().add(-1, "day").format("YYYYMMDD");
+  const today = dayjs().format("YYYYMMDD");
+  const tomorrow = dayjs().add(1, "day").format("YYYYMMDD");
+  const target = dayjs(date).format("YYYYMMDD");
+  let relativeDay = "";
+
+  if (target === today) {
+    lang === "en" ? (relativeDay = "Today ") : (relativeDay = "今日 ");
+  } else if (target === tomorrow) {
+    lang === "en" ? (relativeDay = "Tomorrow ") : (relativeDay = "明日 ");
+  } else if (target === yesterday) {
+    lang === "en" ? (relativeDay = "Yesterday ") : (relativeDay = "昨日 ");
+  }
+
+  if (relativeDay) return relativeDay;
+
+  if (!lang) return dayjs(date).format(dateFormat);
+  // 日・英
+  else return dayjs(date).locale(lang).format(dateFormat);
+};

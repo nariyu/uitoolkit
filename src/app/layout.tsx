@@ -1,4 +1,4 @@
-import { MainContextProvider } from "@/example/hooks/useContext";
+import { MainContextProvider } from "@/example/hooks/useMainContext";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.scss";

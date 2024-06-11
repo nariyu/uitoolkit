@@ -1,4 +1,4 @@
-import { useMainContext } from "@/example/hooks/useContext";
+import { useMainContext } from "@/example/hooks/useMainContext";
 import { Submittable } from "@/lib/components/NavigationController";
 import {
   NotificationManager,

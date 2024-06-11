@@ -1,12 +1,12 @@
-import { CheckBox } from "@/lib/components/CheckBox";
 import { MenuItem, MenuSection } from "@/lib/components/Menu";
 import { Submittable } from "@/lib/components/NavigationController";
+import { SwitchInput } from "@/lib/components/SwitchInput";
 import { preventDefault } from "@/lib/utils/ElementUtil";
 import { Menu as MenuIcon } from "@styled-icons/ionicons-solid/Menu";
 import { SyntheticEvent, useCallback, useRef } from "react";
 import { Config } from "../../config";
 
-import { useMainContext } from "@/example/hooks/useContext";
+import { useMainContext } from "@/example/hooks/useMainContext";
 import { EmailEdit, EmailEditSubmitButton, EmailEditTitle } from "./EmailEdit";
 import styles from "./Menu.module.scss";
 import {
@@ -47,7 +47,7 @@ export const Menu = () => {
           { submit: usernameEditRef }
         );
       } else if (type === "phone") {
-        menuNavigationControllerRef.current?.pushView(
+        menuNavigationControllerRef.current.pushView(
           <PhoneNumberEditTitle />,
           <PhoneNumberEdit
             ref={phoneEditRef}
@@ -57,7 +57,7 @@ export const Menu = () => {
           { submit: phoneEditRef }
         );
       } else if (type === "email") {
-        menuNavigationControllerRef.current?.pushView(
+        menuNavigationControllerRef.current.pushView(
           <EmailEditTitle />,
           <EmailEdit
             ref={emailEditRef}
@@ -98,7 +98,7 @@ export const Menu = () => {
             <MenuItem
               title={userInfo.happy ? "Happy! 😍" : "Happy?"}
               icon={
-                <CheckBox
+                <SwitchInput
                   defaultChecked={userInfo.happy}
                   onChange={(checked) =>
                     setUserInfo((userInfo) =>
@@ -160,7 +160,7 @@ export const MenuTitle = () => {
 
 // メニューボタン
 export const MenuButton = () => {
-  const { setMenuState, menuNavigationControllerRef } = useMainContext();
+  const { openMenu, menuNavigationControllerRef } = useMainContext();
 
   const { userInfo } = useMainContext();
 
@@ -169,11 +169,11 @@ export const MenuButton = () => {
     (event: SyntheticEvent) => {
       preventDefault(event);
 
-      setMenuState((curr) => ({ ...curr, shown: true }));
+      openMenu();
 
       menuNavigationControllerRef?.current?.pushView(<MenuTitle />, <Menu />);
     },
-    [menuNavigationControllerRef, setMenuState]
+    [menuNavigationControllerRef, openMenu]
   );
 
   return (

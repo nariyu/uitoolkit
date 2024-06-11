@@ -6,7 +6,7 @@ import {
   useImperativeHandle,
   useState,
 } from "react";
-import style from "./CheckBox.module.scss";
+import style from "./SwitchInput.module.scss";
 
 interface Props {
   label?: string;
@@ -15,11 +15,11 @@ interface Props {
   checked?: boolean;
   onChange?: (checked: boolean) => void;
 }
-interface CheckBoxHandler {
+interface SwitchInputHandler {
   getChecked: () => boolean;
 }
-export const CheckBox = forwardRef<CheckBoxHandler, Props>(
-  function CheckBox(props, ref) {
+export const SwitchInput = forwardRef<SwitchInputHandler, Props>(
+  function SwitchInput(props, ref) {
     const {
       label,
       disabledLabel,

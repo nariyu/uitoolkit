@@ -1,57 +1,62 @@
+import { classNames, preventDefault } from "@/lib/utils/ElementUtil";
 import {
+  CSSProperties,
+  InputHTMLAttributes,
+  ReactNode,
   SyntheticEvent,
   forwardRef,
   useCallback,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from "react";
-import { classNames, preventDefault } from "../../utils/ElementUtil";
 
 import styles from "./TextInput.module.scss";
 
-interface Props {
+export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  placeholder?: string;
-  name?: string;
   inputMode?: "numeric" | "url" | "search" | "decimal" | "tel" | "email";
-  autoComplete?: string;
-  autoCorrect?: boolean;
   defaultValue?: string;
   type?: "text" | "password" | "email" | "tel";
-  pattern?: string;
-  maxLength?: number;
+  containerStyle?: CSSProperties;
   labelClassName?: string;
+  rightContent?: ReactNode;
   inputClassName?: string;
   disabled?: boolean;
-  onChange?: (value: string) => void;
+  error?: boolean;
+  shape?: "rectangle" | "rounded";
+  inputStyle?: "normal" | "transparent";
+  onChangeValue?: (value: string) => void;
   onAutoFill?: () => void;
 }
+
 export interface TextInputHandler {
   focus: () => void;
   blur: () => void;
   getValue: () => string;
   getAutoFilled: () => boolean;
 }
-export const TextInput = forwardRef<TextInputHandler, Props>(
+
+export const TextInput = forwardRef<TextInputHandler, TextInputProps>(
   function TextInput(props, ref) {
     const {
       label,
-      placeholder,
-      name,
       inputMode,
-      autoComplete,
-      autoCorrect,
       defaultValue,
       type,
-      pattern,
-      maxLength,
+      containerStyle,
       labelClassName,
       inputClassName,
+      rightContent,
       disabled,
-      onChange,
+      error,
+      shape = "rectangle",
+      inputStyle = "normal",
+      onChangeValue,
       onAutoFill,
+      ...inputProps
     } = props;
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -60,9 +65,9 @@ export const TextInput = forwardRef<TextInputHandler, Props>(
     );
     const [focused, setFocused] = useState(false);
 
-    useImperativeHandle(
-      ref,
-      () => ({
+    // メソッド
+    const methods = useMemo(() => {
+      return {
         focus: () => {
           const input = inputRef.current;
           if (input) input.focus();
@@ -76,19 +81,19 @@ export const TextInput = forwardRef<TextInputHandler, Props>(
           return input ? input.value : "";
         },
         getAutoFilled: () => {
-          const autoFilledElements =
+          const autoFilledElems =
             document.querySelectorAll(":-webkit-autofill");
-          for (let i = 0; i < autoFilledElements.length; i++) {
-            const autoFilledElem = autoFilledElements.item(i);
+          for (let i = 0; i < autoFilledElems.length; i++) {
+            const autoFilledElem = autoFilledElems.item(i);
             if (autoFilledElem === inputRef.current) {
               return true;
             }
           }
           return false;
         },
-      }),
-      []
-    );
+      };
+    }, []);
+    useImperativeHandle(ref, () => methods, [methods]);
 
     const onClickLabel = useCallback((event: SyntheticEvent) => {
       preventDefault(event);
@@ -103,16 +108,12 @@ export const TextInput = forwardRef<TextInputHandler, Props>(
         setValue(event.currentTarget.value);
 
         requestAnimationFrame(() => {
-          if (!ref || typeof ref === "function") return;
-          const impl = ref.current;
-          if (impl) {
-            if (impl.getAutoFilled()) {
-              if (onAutoFill) onAutoFill();
-            }
+          if (methods.getAutoFilled()) {
+            if (onAutoFill) onAutoFill();
           }
         });
       },
-      [onAutoFill, ref]
+      [methods, onAutoFill]
     );
     const onFocusInput = useCallback(() => {
       setFocused(true);
@@ -136,43 +137,54 @@ export const TextInput = forwardRef<TextInputHandler, Props>(
     );
 
     useEffect(() => {
-      if (onChange) {
-        onChange(value);
+      if (onChangeValue) {
+        onChangeValue(value);
       }
-    }, [value, onChange]);
+    }, [value, onChangeValue]);
 
     return (
       <div
         className={styles.component}
+        style={containerStyle}
+        data-ui="TextInput"
         data-has-value={focused || value !== ""}
+        data-has-error={error ? "true" : undefined}
+        data-shape={shape}
+        data-style={inputStyle}
       >
-        {typeof label === "string" ? (
-          <div
-            className={classNames(styles.label, labelClassName)}
-            onClick={onClickLabel}
-          >
-            {label}
-          </div>
-        ) : null}
-        <input
-          ref={inputRef}
-          className={classNames(styles.input, inputClassName)}
-          type={type || "text"}
-          pattern={pattern}
-          name={name}
-          inputMode={inputMode}
-          autoComplete={autoComplete || name}
-          autoCorrect={autoCorrect === false ? "off" : undefined}
-          autoCapitalize={autoCorrect === false ? "off" : undefined}
-          placeholder={placeholder}
-          defaultValue={defaultValue}
-          maxLength={maxLength}
-          disabled={disabled ? true : undefined}
-          onChange={onChangeInput}
-          onFocus={onFocusInput}
-          onBlur={onBlurInput}
-          onKeyDown={onKeyDownInput}
-        />
+        <div className={styles.content}>
+          {typeof label === "string" ? (
+            <div
+              className={classNames(styles.label, labelClassName)}
+              onClick={onClickLabel}
+            >
+              {label}
+            </div>
+          ) : null}
+          <input
+            ref={inputRef}
+            className={classNames(styles.input, inputClassName)}
+            type={type || "text"}
+            inputMode={inputMode}
+            defaultValue={defaultValue}
+            disabled={disabled ? true : undefined}
+            onChange={onChangeInput}
+            onFocus={onFocusInput}
+            onBlur={onBlurInput}
+            onKeyDown={onKeyDownInput}
+            {...inputProps}
+          />
+          {rightContent && (
+            <div
+              className={styles.rightContent}
+              onClick={() => {
+                inputRef.current?.focus();
+              }}
+            >
+              {rightContent}
+            </div>
+          )}
+        </div>
       </div>
     );
   }

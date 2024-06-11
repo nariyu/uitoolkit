@@ -18,11 +18,8 @@ type Theme = "dark" | "light";
 
 type WindowSize = { width: number; height: number };
 
-type MenuState = {
-  opened: boolean;
-};
 type NavigationControllerState = {
-  shown: boolean;
+  opened: boolean;
 };
 
 interface UserInfo {
@@ -47,23 +44,22 @@ type IMainContext = {
   theme: Theme;
   setTheme: Dispatch<SetStateAction<Theme>>;
 
-  modalContainer: HTMLDivElement | null;
-  setModalContainer: Dispatch<SetStateAction<HTMLDivElement | null>>;
+  // Modal
+  modalContainerRef: MutableRefObject<HTMLDivElement | null> | null;
 
+  // Menu
   menuNavigationControllerRef: MutableRefObject<NavigationControllerHandler | null> | null;
+  menuOpened: boolean;
+  openMenu: () => void;
+  closeMenu: () => void;
 
-  modalNavigationController: NavigationControllerHandler | null | undefined;
-  setModalNavigationController: Dispatch<
-    SetStateAction<NavigationControllerHandler | null>
-  >;
+  // Modal NavigationController
+  modalNavigationControllerRef: MutableRefObject<NavigationControllerHandler | null> | null;
+  modalNavigationControllerOpened: boolean;
+  openModalNavigationControllerModal: () => void;
+  closeModalNavigationControllerModal: () => void;
 
-  menuState: MenuState;
-  setMenuState: Dispatch<SetStateAction<MenuState>>;
-
-  modalNavigationControllerState: NavigationControllerState;
-  showModalNavigationControllerModal: () => void;
-  hideModalNavigationControllerModal: () => void;
-
+  // User Info
   userInfo: UserInfo | undefined;
   setUserInfo: Dispatch<SetStateAction<UserInfo | undefined>>;
 };
@@ -78,20 +74,17 @@ const defaultMainContext: IMainContext = {
         },
   theme: typeof window === "undefined" ? "light" : "dark",
   setTheme: () => {},
-  modalContainer: null,
-  setModalContainer: () => {},
+  modalContainerRef: null,
+
   menuNavigationControllerRef: null,
-  modalNavigationController: null,
-  setModalNavigationController: () => {},
-  menuState: {
-    opened: false,
-  },
-  setMenuState: () => {},
-  modalNavigationControllerState: {
-    shown: false,
-  },
-  showModalNavigationControllerModal: () => {},
-  hideModalNavigationControllerModal: () => {},
+  menuOpened: false,
+  openMenu: () => {},
+  closeMenu: () => {},
+
+  modalNavigationControllerRef: null,
+  modalNavigationControllerOpened: false,
+  openModalNavigationControllerModal: () => {},
+  closeModalNavigationControllerModal: () => {},
 
   userInfo: defaultUserInfo,
   setUserInfo: () => {},
@@ -154,44 +147,40 @@ export const MainContextProvider = ({ children }: { children: ReactNode }) => {
   }, [theme]);
 
   // ModalContainer
-  const [modalContainer, setModalContainer] = useState<HTMLDivElement | null>(
-    null
-  );
+  const modalContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Menu State
   const menuNavigationControllerRef =
     useRef<NavigationControllerHandler | null>(null);
-  const [menuState, setMenuState] = useState<MenuState>({
+  const [menuState, setMenuState] = useState<NavigationControllerState>({
     opened: false,
   });
+  const openMenu = useCallback(() => {
+    setMenuState((curr) => ({ ...curr, opened: true }));
+  }, []);
+  const closeMenu = useCallback(() => {
+    setMenuState((curr) => ({ ...curr, opened: false }));
+  }, []);
 
   // Modal NavigationController
-  const [modalNavigationController, setModalNavigationController] =
-    useState<NavigationControllerHandler | null>(null);
-  const [modalNavigationControllerState, setNavigationControllerState] =
-    useState<{
-      shown: boolean;
-    }>({
-      shown: false,
+  const modalNavigationControllerRef =
+    useRef<NavigationControllerHandler | null>(null);
+  const [modalNavigationControllerState, setModalNavigationControllerState] =
+    useState<NavigationControllerState>({
+      opened: false,
     });
-
-  const showModalNavigationControllerModal = useCallback(() => {
-    setNavigationControllerState((currValue) => {
-      return {
-        ...currValue,
-        shown: true,
-      };
-    });
-  }, [setNavigationControllerState]);
-
-  const hideModalNavigationControllerModal = useCallback(() => {
-    setNavigationControllerState((currValue) => {
-      return {
-        ...currValue,
-        shown: false,
-      };
-    });
-  }, [setNavigationControllerState]);
+  const openModalNavigationControllerModal = useCallback(() => {
+    setModalNavigationControllerState((currValue) => ({
+      ...currValue,
+      opened: true,
+    }));
+  }, [setModalNavigationControllerState]);
+  const closeModalNavigationControllerModal = useCallback(() => {
+    setModalNavigationControllerState((currValue) => ({
+      ...currValue,
+      opened: false,
+    }));
+  }, [setModalNavigationControllerState]);
 
   // User Info
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(
@@ -205,18 +194,17 @@ export const MainContextProvider = ({ children }: { children: ReactNode }) => {
         theme,
         setTheme,
 
-        modalContainer,
-        setModalContainer,
+        modalContainerRef,
+
         menuNavigationControllerRef,
-        modalNavigationController,
-        setModalNavigationController,
+        menuOpened: menuState.opened,
+        openMenu,
+        closeMenu,
 
-        menuState,
-        setMenuState,
-
-        modalNavigationControllerState,
-        showModalNavigationControllerModal,
-        hideModalNavigationControllerModal,
+        modalNavigationControllerRef,
+        modalNavigationControllerOpened: modalNavigationControllerState.opened,
+        openModalNavigationControllerModal,
+        closeModalNavigationControllerModal,
 
         userInfo,
         setUserInfo,

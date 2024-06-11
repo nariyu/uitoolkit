@@ -1,17 +1,17 @@
-import { useMainContext } from "@/example/hooks/useContext";
-import { showActionSheet } from "@/lib/components/ActionSheet";
+import { useMainContext } from "@/example/hooks/useMainContext";
+import { showBottomSheet } from "@/lib/components/BottomSheet";
 import { Button } from "@/lib/components/Button";
 import styles from "./Content.module.scss";
 
 export const Content3 = () => {
-  const { modalContainer } = useMainContext();
+  const { modalContainerRef } = useMainContext();
 
   return (
     <div className={styles.component}>
       <Button
         onClick={() => {
-          if (modalContainer) {
-            showActionSheet(
+          if (modalContainerRef?.current) {
+            showBottomSheet(
               "Pretty!",
               <div
                 style={{
@@ -26,7 +26,7 @@ export const Content3 = () => {
                 🥰
               </div>,
               {
-                container: modalContainer,
+                container: modalContainerRef.current,
               }
             );
           }

@@ -1,4 +1,4 @@
-.modalContainer {
+.popUpContainer {
   position: fixed;
   z-index: 7000;
   top: 0;
@@ -21,7 +21,7 @@
     animation: fade-out 0.3s ease-out 0s forwards;
   }
 }
-.modalContainerBackground {
+.popUpContainerBackground {
   position: absolute;
   top: 0;
   left: 0;

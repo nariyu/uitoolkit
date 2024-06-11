@@ -1,0 +1,252 @@
+.component {
+  position: relative;
+
+  display: inline-block;
+
+  overflow: hidden;
+  user-select: none;
+
+  .title {
+    padding: 0 0 0 0.5em;
+    height: 2em;
+
+    display: flex;
+    align-items: center;
+    .year,
+    .month {
+      position: relative;
+      padding: 0.2em;
+      font-weight: 600;
+
+      display: flex;
+      align-items: center;
+
+      overflow: hidden;
+      cursor: pointer;
+
+      .invisibleSelect {
+        display: block;
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+      }
+
+      select {
+        cursor: pointer;
+      }
+
+      &:hover {
+        background-color: rgba(#000, 0.2);
+      }
+
+      .icon {
+        font-size: 1em;
+      }
+    }
+    .flex {
+      flex: 1;
+    }
+    .btn {
+      position: relative;
+      width: 2em;
+      height: 2em;
+      padding: 0.3em;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s linear 0s;
+      &[aria-disabled="true"] {
+        opacity: 0;
+        pointer-events: none;
+      }
+      &.now {
+        width: auto;
+      }
+      &:hover {
+        background-color: rgba(#000, 0.2);
+      }
+      &:active {
+        transform: translate(0, 1px);
+      }
+
+      i {
+        font-size: 1.2em;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .content {
+    display: flex;
+  }
+
+  .calendarTable {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+
+    overflow: hidden;
+
+    animation: appear-in 0.2s ease-out 0s;
+
+    tr {
+      display: flex;
+
+      td {
+        flex: 1;
+        display: block;
+        position: relative;
+      }
+    }
+
+    thead {
+      font-size: 0.8em;
+      text-align: center;
+      font-weight: 400;
+      tr {
+        td {
+          padding: 0.5em;
+          // background-color: rgba(#fff, 0.1);
+          &[data-day="0"] {
+            color: rgb(224, 53, 53);
+          }
+          &[data-day="6"] {
+            color: rgb(26, 67, 199);
+          }
+        }
+      }
+    }
+    tbody {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      tr {
+        flex: 1;
+        td {
+          position: relative;
+          padding: 0.3em;
+          width: 2.5em;
+          height: 2.5em;
+          opacity: 0.5;
+          overflow: hidden;
+          cursor: pointer;
+
+          &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.5em;
+            transition: background-color 0.1s linear 0s;
+          }
+
+          &:hover {
+            &::before {
+              background-color: rgba(#9bf, 0.1);
+              transition-duration: 0s;
+            }
+          }
+
+          &[data-curr-month="true"] {
+            opacity: 1;
+          }
+
+          .date {
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+            .circle {
+              position: absolute;
+              bottom: 0;
+              left: 50%;
+              transform: translate(-50%, calc(100% + 2px));
+              width: 5px;
+              height: 5px;
+              border-radius: 100%;
+            }
+          }
+
+          /* 範囲内の日付のスタイル（開始日と終了日を除く） */
+          &[data-range="true"]:not([data-start="true"]):not([data-end="true"]) {
+            color: #999;
+            &::before {
+              top: 5px;
+              left: 5px;
+              right: 5px;
+              bottom: 5px;
+              border-radius: 5px;
+              background-color: rgba(0, 123, 255, 0.2);
+            }
+          }
+
+          /* 開始日と終了日のスタイル */
+          &[data-start="true"],
+          &[data-end="true"] {
+            font-weight: 600;
+            color: #fff;
+
+            &::before {
+              background-color: var(--primary-color);
+            }
+          }
+          &[data-today="true"] {
+            .date .circle {
+              background-color: #f80;
+            }
+          }
+          &[aria-selected="true"] {
+            font-weight: 600;
+            color: #fff;
+            &::before {
+              // background-color: rgba(#9bf, 0.3);
+              background-color: var(--primary-color);
+            }
+          }
+          &[aria-disabled="true"] {
+            pointer-events: none;
+            color: #ccc;
+          }
+        }
+      }
+    }
+  }
+
+  &[aria-disabled="true"] {
+    pointer-events: none;
+    .year,
+    .month {
+      .icon {
+        display: none;
+      }
+    }
+    .btn {
+      display: none;
+    }
+  }
+}
+
+@keyframes appear-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

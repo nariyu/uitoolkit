@@ -1,4 +1,7 @@
-import { defaultUserInfo, useMainContext } from "@/example/hooks/useContext";
+import {
+  defaultUserInfo,
+  useMainContext,
+} from "@/example/hooks/useMainContext";
 import { Button } from "@/lib/components/Button";
 import { preventDefault } from "@/lib/utils/ElementUtil";
 import { SyntheticEvent, useCallback, useState } from "react";

@@ -9,7 +9,7 @@ import {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { preventDefault } from "../../utils/ElementUtil";
-import styles from "./ActionSheet.module.scss";
+import styles from "./BottomSheet.module.scss";
 
 interface Props {
   title?: ReactNode;
@@ -18,12 +18,12 @@ interface Props {
   onClose?: () => void;
 }
 
-export interface ActionSheetHandler {
+export interface BottomSheetHandler {
   hide: () => void;
 }
 
-export const ActionSheet = forwardRef<ActionSheetHandler, Props>(
-  function ActionSheet(props, ref) {
+export const BottomSheet = forwardRef<BottomSheetHandler, Props>(
+  function BottomSheet(props, ref) {
     const { title, children, defaultShown = true, onClose } = props;
 
     const [shown, setShown] = useState(defaultShown);
@@ -57,7 +57,7 @@ export const ActionSheet = forwardRef<ActionSheetHandler, Props>(
         />
         <div
           className={styles.component}
-          data-ui="actionsheet"
+          data-ui="bottomsheet"
           aria-hidden={!shown}
           onClick={preventDefault}
         >
@@ -71,15 +71,15 @@ export const ActionSheet = forwardRef<ActionSheetHandler, Props>(
   }
 );
 
-export interface ActionSheetOptions {
+export interface BottomSheetOptions {
   container?: HTMLElement;
 }
 
 // Hooks
-export const showActionSheet = (
+export const showBottomSheet = (
   title: ReactNode | undefined,
   content: ReactNode,
-  options?: ActionSheetOptions
+  options?: BottomSheetOptions
 ) => {
   options = options || {};
 
@@ -90,11 +90,11 @@ export const showActionSheet = (
 
   container.appendChild(box);
 
-  const actionSheetRef = createRef<ActionSheetHandler>();
+  const actionSheetRef = createRef<BottomSheetHandler>();
 
   const root = createRoot(box);
   root.render(
-    <ActionSheet
+    <BottomSheet
       ref={actionSheetRef}
       title={title}
       onClose={() => {
@@ -109,7 +109,7 @@ export const showActionSheet = (
       }}
     >
       {content}
-    </ActionSheet>
+    </BottomSheet>
   );
 
   return () => {
